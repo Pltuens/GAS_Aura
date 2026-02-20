@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActiveGameplayEffectHandle.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
 
 
@@ -48,27 +48,28 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
 	bool bDestroyOnEffectRemoval=false;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Instant")
 	TSubclassOf<UGameplayEffect>InstantGameplayEffectClass;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Instant")
 	EEffectApplicationPolicy InstantEffectApplicationPolicy=EEffectApplicationPolicy::DoNotApply;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Duration")
 	TSubclassOf<UGameplayEffect>DurationGameplayEffectClass;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Duration")
 	EEffectApplicationPolicy DurationEffectApplicationPolicy=EEffectApplicationPolicy::DoNotApply;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Infinite")
 	TSubclassOf<UGameplayEffect>InfiniteGameplayEffectClass;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Infinite")
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy=EEffectApplicationPolicy::DoNotApply;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects|Infinite")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy=EEffectRemovalPolicy::RemoveOnEndOverlap;
 	
+	UPROPERTY()
 	TMap<FActiveGameplayEffectHandle,UAbilitySystemComponent*> ActiveEffectHandles;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")

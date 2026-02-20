@@ -9,7 +9,6 @@ public class GAS_AuraEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
-
 		ExtraModuleNames.AddRange( new string[] { "GAS_Aura" } );
 	}
 }

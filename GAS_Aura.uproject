@@ -12,7 +12,8 @@
 				"Engine",
 				"GameplayAbilities",
 				"UMG",
-				"CoreUObject"
+				"CoreUObject",
+				"EnhancedInput"
 			]
 		}
 	],
@@ -27,6 +28,21 @@
 		{
 			"Name": "GameplayAbilities",
 			"Enabled": true
+		},
+		{
+			"Name": "MotionWarping",
+			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"UnrealClient",
+		"UnrealServer",
+		"Windows",
+		"Win64",
+		"Linux",
+		"LinuxArm64",
+		"Mac",
+		"Android",
+		"IOS"
 	]
 }

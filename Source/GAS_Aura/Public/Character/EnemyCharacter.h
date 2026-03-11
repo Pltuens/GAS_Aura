@@ -10,6 +10,8 @@
 #include "EnemyCharacter.generated.h"
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AAuraAIController;
 /**
  * 
  */
@@ -20,9 +22,13 @@ class GAS_AURA_API AEnemyCharacter : public ABaseCharacter,public IEnemyInterfac
 	
 public:
 	AEnemyCharacter();
+	virtual void PossessedBy(AController* NewController) override;
+	
 	/*EnemyInterface*/
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 	/*end EnemyInterface*/
 	
 	/*CombatInterface*/
@@ -40,11 +46,14 @@ public:
 	UPROPERTY(BlueprintReadOnly,Category="Combat")
 	bool bHitReacting=false;
 	
-	UPROPERTY(BlueprintReadOnly,Category="Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly,Category="Combat")
 	float BaseWalkSpeed=250.f;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Combat")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Combat")
 	float LifeSpan=5.f;
+	
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	TObjectPtr<AActor> CombatTarget;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -60,4 +69,9 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent>HealthBar;
 	
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+	
+	UPROPERTY()
+	TObjectPtr<AAuraAIController> AuraAIController;
 };

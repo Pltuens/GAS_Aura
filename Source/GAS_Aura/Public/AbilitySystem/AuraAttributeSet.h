@@ -22,29 +22,29 @@ struct FEffectProperties
 	FGameplayEffectContextHandle EffectContextHandle;
 	
 	UPROPERTY()
-	UAbilitySystemComponent*SourceASC=nullptr;
+	UAbilitySystemComponent*SourceASC = nullptr;
 	
 	UPROPERTY()
-	AActor*SourceAvatarActor=nullptr;
+	AActor*SourceAvatarActor = nullptr;
 	
 	UPROPERTY()
-	AController*SourceController=nullptr;
+	AController*SourceController = nullptr;
 	
 	UPROPERTY()
-	ACharacter*SourceCharacter=nullptr;
+	ACharacter*SourceCharacter = nullptr;
 	
 	
 	UPROPERTY()
-	UAbilitySystemComponent*TargetASC=nullptr;
+	UAbilitySystemComponent*TargetASC = nullptr;
 	
 	UPROPERTY()
-	AActor*TargetAvatarActor=nullptr;
+	AActor*TargetAvatarActor = nullptr;
 	
 	UPROPERTY()
-	AController*TargetController=nullptr;
+	AController*TargetController = nullptr;
 	
 	UPROPERTY()
-	ACharacter*TargetCharacter=nullptr;
+	ACharacter*TargetCharacter = nullptr;
 };
 
 //typedef TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr FAttributesFuncPtr;
@@ -71,80 +71,104 @@ public:
 	TMap<FGameplayTag,TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
 	
 	
-	//Primary attributes
+	/*
+     * 主要属性
+     */
 	//力量
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Strength,Category="Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
 	FGameplayAttributeData Strength;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Strength);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength);
 	
 	//智力
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Intelligence,Category="Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
 	FGameplayAttributeData Intelligence;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Intelligence);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Intelligence);
 	
 	//恢复力
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Resilience,Category="Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resilience, Category = "Primary Attributes")
 	FGameplayAttributeData Resilience;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Resilience);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resilience);
 	
 	//活力
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Vigor,Category="Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
 	FGameplayAttributeData Vigor;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Vigor);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 	
-	//Secondary attributes
-	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Armor,Category="Secondary Attributes")
+	/*
+	 * 次要属性
+	 */
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
 	FGameplayAttributeData Armor;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Armor);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Armor);
 	
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_ArmorPenetration,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category = "Secondary Attributes")
 	FGameplayAttributeData ArmorPenetration;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,ArmorPenetration);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorPenetration);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_BlockChance,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance, Category = "Secondary Attributes")
 	FGameplayAttributeData BlockChance;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,BlockChance);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, BlockChance);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitChance,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitChance, Category = "Secondary Attributes")
 	FGameplayAttributeData CriticalHitChance;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitChance);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitChance);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitDamage,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitDamage, Category = "Secondary Attributes")
 	FGameplayAttributeData CriticalHitDamage;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitDamage);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitDamage);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitResistance,Category="Secondary Attributes")
-	FGameplayAttributeData CriticalHitResistance;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,CriticalHitResistance);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitResistance, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitResistance; 
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitResistance);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_HealthRegeneration,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegeneration, Category = "Secondary Attributes")
 	FGameplayAttributeData HealthRegeneration;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,HealthRegeneration);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegeneration);
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_ManaRegeneration,Category="Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration, Category = "Secondary Attributes")
 	FGameplayAttributeData ManaRegeneration;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,ManaRegeneration);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
+
 	
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_MaxHealth,Category="Secondary Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxHealth);
+	/*
+     * 抗性
+     */
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance);
 	
-	UPROPERTY(blueprintReadOnly,ReplicatedUsing=OnRep_MaxMana,Category="Secondary Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,MaxMana);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData LightningResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningResistance);
 	
-	//Vital attributes
-	//健康
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
+	
+	/*
+	 * 核心属性
+	 */
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Health,Category="Vital Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Health);
 	
-    //魔力	
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Mana,Category="Vital Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Mana);
+	
+		
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Vital Attributes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Vital Attributes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 	
 	/*
 	 * 元属性
@@ -152,60 +176,69 @@ public:
 	UPROPERTY(BlueprintReadOnly,Category="Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,IncomingDamage);
-	
-	//力量
-	UFUNCTION()
-	void OnRep_Strength(const FGameplayAttributeData& OldStrength)const;
-	//智力
-	UFUNCTION()
-	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence)const;
-	//恢复力
-	UFUNCTION()
-	void OnRep_Resilience(const FGameplayAttributeData& OldResilience)const;
-	//活力
-	UFUNCTION()
-	void OnRep_Vigor(const FGameplayAttributeData& OldVigor)const;
-	
-	//健康
-	UFUNCTION()
-	void OnRep_Health(const FGameplayAttributeData& OldHealth)const;
 
-	//魔力	
 	UFUNCTION()
-	void OnRep_Mana(const FGameplayAttributeData& OldMana)const;
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+	
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
 
+	UFUNCTION()
+	void OnRep_Resilience(const FGameplayAttributeData& OldResilience) const;
 	
 	UFUNCTION()
-	void OnRep_Armor(const FGameplayAttributeData& OldArmor)const;
+	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
+
+	UFUNCTION()
+	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
+
+	UFUNCTION()
+	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
 	
 	UFUNCTION()
-	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration)const;
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
 	
 	UFUNCTION()
-	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance)const;
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
 	
 	UFUNCTION()
-	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance)const;
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
 	
 	UFUNCTION()
-	void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage)const;
+	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const;
 	
 	UFUNCTION()
-	void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance)const;
+	void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const;
 	
 	UFUNCTION()
-	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration)const;
+	void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const;
 	
 	UFUNCTION()
-	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration)const;
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const;
 	
 	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)const;
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const;
 	
 	UFUNCTION()
-	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana)const;
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+	
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+	
+	UFUNCTION()
+	void OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const;
+	
+	UFUNCTION()
+	void OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const;
+	
+	UFUNCTION()
+	void OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const;
+	
+	UFUNCTION()
+	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
+	
 private:
-	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data,FEffectProperties&Props);
+	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties&Props);
 
 	static void ShowFloatingText(const FEffectProperties&Props, float Damage, bool bBlockedHit, bool bCriticalHit);
 };

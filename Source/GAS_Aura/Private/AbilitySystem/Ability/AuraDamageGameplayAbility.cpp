@@ -18,8 +18,7 @@ void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 	
 }
 
-FTaggedMontage UAuraDamageGameplayAbility::GetRanggedTaggedMontageFromArray(
-	const TArray<FTaggedMontage>& TaggedMontages)const
+FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages)const
 {
 	if (TaggedMontages.Num() > 0)
 	{

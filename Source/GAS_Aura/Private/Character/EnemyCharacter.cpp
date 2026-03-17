@@ -1,7 +1,6 @@
  // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Character/EnemyCharacter.h"
+#include "GAS_Aura/GAS_Aura.h"
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -10,7 +9,6 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GAS_Aura/GAS_Aura.h"
 #include "Tags/AuraGameplayTags.h"
 #include "UI/Widget/AuraUserWidget.h"
 
@@ -77,8 +75,15 @@
 
  void AEnemyCharacter::Die()
  {
- 	 SetLifeSpan(LifeSpan);
-	 Super::Die();
+ 	SetLifeSpan(LifeSpan);
+ 	if (AuraAIController)
+ 	{
+ 		if (UBlackboardComponent* BBComp = AuraAIController->GetBlackboardComponent())
+ 		{
+ 			BBComp->SetValueAsBool(FName("Dead"), true);
+ 		}
+ 	}
+ 	Super::Die();
  }
 
  void AEnemyCharacter::BeginPlay()

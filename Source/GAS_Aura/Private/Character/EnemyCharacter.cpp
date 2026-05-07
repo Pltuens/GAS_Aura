@@ -28,7 +28,9 @@
  	AttributeSet=CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
  	
  	HealthBar=CreateDefaultSubobject<UWidgetComponent>("HealthBar");
- 	HealthBar->SetupAttachment(GetRootComponent());                              
+ 	HealthBar->SetupAttachment(GetRootComponent());                 
+ 	
+ 	BaseWalkSpeed = 250.f;
  }
 
  void AEnemyCharacter::PossessedBy(AController* NewController)
@@ -41,6 +43,7 @@
  	AuraAIController->RunBehaviorTree(BehaviorTree);
  	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
  	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
+ 	
  }
 
 
@@ -68,12 +71,12 @@
 	 return CombatTarget;
  }
 
- int32 AEnemyCharacter::GetPlayerLevel()
+ int32 AEnemyCharacter::GetPlayerLevel_Implementation()
  {
  	return Level;
  }
 
- void AEnemyCharacter::Die()
+ void AEnemyCharacter::Die(const FVector& DeathImpulse)
  {
  	SetLifeSpan(LifeSpan);
  	if (AuraAIController)
@@ -83,7 +86,7 @@
  			BBComp->SetValueAsBool(FName("Dead"), true);
  		}
  	}
- 	Super::Die();
+ 	Super::Die(DeathImpulse);
  }
 
  void AEnemyCharacter::BeginPlay()
@@ -140,13 +143,26 @@ void AEnemyCharacter::HitReactTagChanged(const FGameplayTag CallBackTag, int32 N
  {
  	AbilitySystemComponent->InitAbilityActorInfo(this,this);
  	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+ 	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AEnemyCharacter::StunTagChanged);
+	
  	if (HasAuthority())
  	{
  		InitializeDefaultAttributes();
  	}
+ 	OnASCRegistered.Broadcast(AbilitySystemComponent);
+ 	
  }
 
  void AEnemyCharacter::InitializeDefaultAttributes() const
  {
 	 UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this,CharacterClass,Level,AbilitySystemComponent);
+ }
+
+ void AEnemyCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+ {
+	 Super::StunTagChanged(CallbackTag, NewCount);
+ 	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+ 	{
+ 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsStunned"), bIsStunned);
+ 	}
  }

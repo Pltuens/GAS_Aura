@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Character/BaseCharacter.h"
 #include "Interaction/EnemyInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
@@ -32,8 +31,8 @@ public:
 	/*end EnemyInterface*/
 	
 	/*CombatInterface*/
-	virtual int32 GetPlayerLevel() override;
-	virtual void Die() override;
+	virtual int32 GetPlayerLevel_Implementation() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	/*end CombatInterface*/
 	
 	UPROPERTY(BlueprintAssignable)
@@ -46,8 +45,6 @@ public:
 	UPROPERTY(BlueprintReadOnly,Category="Combat")
 	bool bHitReacting=false;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly,Category="Combat")
-	float BaseWalkSpeed=250.f;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Combat")
 	float LifeSpan=5.f;
@@ -59,12 +56,10 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)override;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere,Category="Character Class Defaults")
 	int32 Level=1;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere,Category="Character Class Defaults")
-	ECharacterClass CharacterClass=ECharacterClass::Warrior;
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent>HealthBar;

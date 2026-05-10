@@ -9,11 +9,6 @@ AMagicCircle::AMagicCircle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// 1. 必须先创建 Root
-	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(Root);
-
-	// 2. Decal 再挂上去
 	MagicCircleDecal = CreateDefaultSubobject<UDecalComponent>(TEXT("MagicCircleDecal"));
 	MagicCircleDecal->SetupAttachment(RootComponent);
 }

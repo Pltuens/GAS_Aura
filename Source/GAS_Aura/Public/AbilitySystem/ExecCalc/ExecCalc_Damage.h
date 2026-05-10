@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
@@ -16,7 +17,7 @@ class GAS_AURA_API UExecCalc_Damage : public UGameplayEffectExecutionCalculation
 	
 public:
 	UExecCalc_Damage();
-	void DeterminDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	void DetermineDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	                    const FGameplayEffectSpec& Spec,
 	                    FAggregatorEvaluateParameters EvaluationParameters,
 	                    const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToDefs

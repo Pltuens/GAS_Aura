@@ -58,6 +58,13 @@ void ABaseCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>&
 	DOREPLIFETIME(ABaseCharacter, bIsBeingShocked);
 }
 
+float ABaseCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+	return DamageTaken;
+}
+
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -215,6 +222,11 @@ void ABaseCharacter::SetIsBeingShocked_Implementation(bool bInShock)
 	bIsBeingShocked = bInShock;
 }
 
+FOnDamageSignature& ABaseCharacter::GetOnDamageSignature()
+{
+	return OnDamageDelegate;
+}
+
 void ABaseCharacter::InitAbilityActorInfo()
 {
 	
@@ -237,7 +249,7 @@ void ABaseCharacter::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultVitalAttributes,1.f);
 }
 
-void ABaseCharacter::AddCharacterAbilities()
+void ABaseCharacter::AddCharacterAbilities() const
 {
 	UAuraAbilitySystemComponent*AuraASC=CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 	if (!HasAuthority()) return;

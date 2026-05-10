@@ -153,12 +153,20 @@ int32 AAuraCharacter::GetSpellPoints_Implementation() const
 
 void AAuraCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
 {
-	IPlayerInterface::ShowMagicCircle_Implementation(DecalMaterial);
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		AuraPlayerController->ShowMagicCircle(DecalMaterial);
+		AuraPlayerController->bShowMouseCursor = false;
+	}
 }
 
 void AAuraCharacter::HideMagicCircle_Implementation()
 {
-	IPlayerInterface::HideMagicCircle_Implementation();
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		AuraPlayerController->HideMagicCircle();
+		AuraPlayerController->bShowMouseCursor = true;
+	}
 }
 
 void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)

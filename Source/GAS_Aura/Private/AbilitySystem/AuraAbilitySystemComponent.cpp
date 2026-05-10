@@ -48,32 +48,30 @@ void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Inp
 {
     if (!InputTag.IsValid()) return;
 
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
     {
-        // 核心修改：通过 AbilitySpec.Ability (CDO) 来获取并对比标签
-        const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability);
-        
-        if (AuraAbility && AuraAbility->StartupInputTag.MatchesTagExact(InputTag))
+        if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
         {
             AbilitySpecInputPressed(AbilitySpec);
-            if (!AbilitySpec.IsActive())
+            if (AbilitySpec.IsActive())
             {
-                InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
+                FPredictionKey PredictionKey = AbilitySpec.GetPrimaryInstance() ? AbilitySpec.GetPrimaryInstance()->GetCurrentActivationInfo().GetActivationPredictionKey() : AbilitySpec.ActivationInfo.GetActivationPredictionKey();
+                InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, PredictionKey);
             }
+            
         }
     } 
+    
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
 {
     if (!InputTag.IsValid()) return;
-
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
     {
-        // 核心修改：通过 AbilitySpec.Ability (CDO) 来获取并对比标签
-        const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability);
-        
-        if (AuraAbility && AuraAbility->StartupInputTag.MatchesTagExact(InputTag))
+        if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
         {
             AbilitySpecInputPressed(AbilitySpec);
             if (!AbilitySpec.IsActive())
@@ -87,12 +85,10 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
 void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
 {
     if (!InputTag.IsValid()) return;
-
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
     {
-        const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability);
-        
-        if (AuraAbility && AuraAbility->StartupInputTag.MatchesTagExact(InputTag) && AbilitySpec.IsActive())
+        if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag) && AbilitySpec.IsActive())
         {
             AbilitySpecInputReleased(AbilitySpec);
             // ReSharper disable once CppDeprecatedEntity
@@ -346,7 +342,6 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
                     }
 
                     ClearSlot(SpecWithSlot);
-                    MarkAbilitySpecDirty(*SpecWithSlot);
                 }
             }
 

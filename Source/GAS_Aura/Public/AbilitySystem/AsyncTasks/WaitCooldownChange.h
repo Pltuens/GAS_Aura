@@ -6,7 +6,9 @@
 #include "GameplayTagContainer.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "Microsoft/AllowMicrosoftPlatformTypes.h"
+#include "GameplayEffectTypes.h"
 #include "WaitCooldownChange.generated.h"
+
 
 class UAbilitySystemComponent;
 struct FGameplayEffectSpec;
@@ -40,5 +42,6 @@ protected:
 	FGameplayTag CooldownTag;
 
 	void CooldownTagChanged(const FGameplayTag InCooldownTag, int32 NewCount);
+	UFUNCTION()
 	void OnActiveEffectAdded(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SpecApplied, FActiveGameplayEffectHandle ActiveEffectHandle);
 };

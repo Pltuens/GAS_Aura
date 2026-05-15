@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayCueManager.h"
+#include "Components/AudioComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Tags/AuraGameplayTags.h"
 
@@ -16,7 +17,7 @@ void AAuraFireBall::BeginPlay()
 
 void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	/*if (!IsValidOverlap(OtherActor)) return;
+	if (!IsValidOverlap(OtherActor)) return;
 
 	if (HasAuthority())
 	{
@@ -28,10 +29,10 @@ void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
 			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
-	}*/
+	}
 }
 
-/*void AAuraFireBall::OnHit()
+void AAuraFireBall::OnHit()
 {
 	if (GetOwner())
 	{
@@ -46,4 +47,4 @@ void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 		LoopingSoundComponent->DestroyComponent();
 	}
 	bHit = true;
-}*/
+}

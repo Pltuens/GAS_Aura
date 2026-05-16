@@ -6,8 +6,10 @@
 #include "GameFramework/PlayerController.h"
 #include "Input/AuraInputConfig.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "AuraPlayerController.generated.h"
 
+class IHighlightInterface;
 class AMagicCircle;
 class UNiagaraSystem;
 class UDamageTextComponent;
@@ -19,15 +21,13 @@ class UInputMappingContext;
 class UInputAction;
 
 UCLASS()
-class GAS_AURA_API AAuraPlayerController : public APlayerController,public IEnemyInterface
+class GAS_AURA_API AAuraPlayerController : public APlayerController,public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 	
 public:
 	AAuraPlayerController();
 	virtual void PlayerTick(float DeltaTime)override;
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
 	
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter*TargetCharacter, bool bBlockedHit, bool bCriticalHit);
@@ -57,8 +57,8 @@ private:
 	void Move(const FInputActionValue&InputActionValue);
 	
 	void CursorTrace();
-	IEnemyInterface*LastActor;
-	IEnemyInterface*ThisActor;
+	IHighlightInterface*LastActor;
+	IHighlightInterface*ThisActor;
 	FHitResult CursorHit;
 	
 	void AbilityInputTagPressed(FGameplayTag InputTag);

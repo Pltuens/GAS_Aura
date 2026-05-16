@@ -16,6 +16,7 @@
 #include "GAS_Aura/GAS_Aura.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "Tags/AuraGameplayTags.h"
 #include "UI/Widget/DamageTextComponent.h"
 
@@ -34,15 +35,6 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	UpdateMagicCircleLocation();
 }
 
-void AAuraPlayerController::HighlightActor()
-{
-	
-}
-
-void AAuraPlayerController::UnHighlightActor()
-{
-	
-}
 
 void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 {
@@ -171,13 +163,20 @@ void AAuraPlayerController::CursorTrace()
 	GetHitResultUnderCursor(TraceChannel, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 	
-	LastActor=ThisActor;
-	ThisActor=Cast<IEnemyInterface>(CursorHit.GetActor());
+	LastActor = ThisActor;
+	ThisActor = Cast<IHighlightInterface>(CursorHit.GetActor());
 
-	if (LastActor!=ThisActor)
+	if (LastActor != ThisActor)
 	{
-		if (LastActor)LastActor->UnHighlightActor();
-		if (ThisActor)ThisActor->HighlightActor();
+		if (LastActor)
+		{
+			IHighlightInterface::Execute_UnHighlightActor(Cast<UObject>(LastActor));
+		}
+
+		if (ThisActor)
+		{
+			IHighlightInterface::Execute_HighlightActor(Cast<UObject>(ThisActor));
+		}
 	}
 }
 

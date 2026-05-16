@@ -33,8 +33,8 @@ class UAbilityInfo;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,FUIWidgetRow,Row);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelChangedSignature, int32, NewLevel, bool, bLevelUp);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
 /**
  * 
@@ -44,38 +44,40 @@ class GAS_AURA_API UOverlayWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 public:
-	virtual void BroadcastInitialValues()override;
-	virtual void BindCallbacksToDependencies()override;
-	
-	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
+	virtual void BroadcastInitialValues() override;
+	virtual void BindCallbacksToDependencies() override;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnHealthChanged;
-	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnMaxHealthChanged;
-	
-	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnManaChanged;
-	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnMaxManaChanged;
-	
-	UPROPERTY(BlueprintAssignable,Category="GAS|Messages")
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;
-	
-	UPROPERTY(BlueprintAssignable,Category="GAS|XP")
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
 	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
-	
-	UPROPERTY(BlueprintAssignable,Category="GAS|Level")
-	FOnPlayerStatSignature OnPlayerLevelChangedDelegate;
-	
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Level")
+	FOnLevelChangedSignature OnPlayerLevelChangedDelegate;
+
 protected:
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category="Widget Data")
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
-	
-	template <typename T>
-	T* GetDataTableRowByTag(UDataTable*DataTable,const FGameplayTag&Tag);
-	
+
+	template<typename T>
+	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
 	void OnXPChanged(int32 NewXP);
-	
+
 	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot) const;
 };
 

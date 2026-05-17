@@ -20,6 +20,13 @@ struct FInputActionValue;
 class UInputMappingContext;
 class UInputAction;
 
+enum class ETargetingStatus : uint8
+{
+	TargetingEnemy,
+	TargetingNonEnemy,
+	NotTargeting
+};
+
 UCLASS()
 class GAS_AURA_API AAuraPlayerController : public APlayerController,public IEnemyInterface, public IHighlightInterface
 {
@@ -27,77 +34,84 @@ class GAS_AURA_API AAuraPlayerController : public APlayerController,public IEnem
 	
 public:
 	AAuraPlayerController();
-	virtual void PlayerTick(float DeltaTime)override;
-	
+	virtual void PlayerTick(float DeltaTime) override;
+
 	UFUNCTION(Client, Reliable)
-	void ShowDamageNumber(float DamageAmount, ACharacter*TargetCharacter, bool bBlockedHit, bool bCriticalHit);
-	
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
+
 	UFUNCTION(BlueprintCallable)
 	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
+
 	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 private:
-	UPROPERTY(EditAnywhere,Category="Input")
+	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
-	
-	UPROPERTY(EditAnywhere,Category="Input")
+
+	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
-	
-	UPROPERTY(EditAnywhere,Category="Input")
+
+	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
-	
-	void ShiftPressed(){bShiftKeyDown=true;};
-	void ShiftReleased(){bShiftKeyDown=false;};
-	bool bShiftKeyDown=false;
-	
-	void Move(const FInputActionValue&InputActionValue);
-	
+
+	void ShiftPressed() { bShiftKeyDown = true; };
+	void ShiftReleased() { bShiftKeyDown = false; };
+	bool bShiftKeyDown = false;
+
+	void Move(const FInputActionValue& InputActionValue);
+
 	void CursorTrace();
-	IHighlightInterface*LastActor;
-	IHighlightInterface*ThisActor;
+	UPROPERTY()
+	TObjectPtr<AActor> LastActor;
+	UPROPERTY()
+	TObjectPtr<AActor> ThisActor;
 	FHitResult CursorHit;
-	
+	static void HighlightActor(AActor* InActor);
+	static void UnHighlightActor(AActor* InActor);
+
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
-	
-	UPROPERTY(EditDefaultsOnly,Category="Input")
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
-	
+
 	UPROPERTY()
-	TObjectPtr<UAuraAbilitySystemComponent>AuraAbilitySystemComponent;
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
+
 	
-	UAuraAbilitySystemComponent*GetASC();
-	
-	FVector CachedDestination=FVector::ZeroVector;
-	float FollowTime=0.0f;
-	float ShortPressThreshold=0.5f;
-	bool bAutoRunning=false;
-	bool bTargeting=false;
-	
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	ETargetingStatus TargetingStatus = ETargetingStatus::NotTargeting;
+
 	UPROPERTY(EditDefaultsOnly)
-	float AutoRunAcceptanceRadius=50.0f;
-	
+	float AutoRunAcceptanceRadius = 50.f;
+
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USplineComponent>Spline;
-	
+	TObjectPtr<USplineComponent> Spline;
+
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
-	
+
 	void AutoRun();
-	
+
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UDamageTextComponent>DamageTextComponentClass;
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMagicCircle> MagicCircleClass;
-	
+
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
-	
+
 	void UpdateMagicCircleLocation();
 };

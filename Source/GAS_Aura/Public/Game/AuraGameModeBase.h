@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/Data/LootTiers.h"
 #include "GameFramework/GameModeBase.h"
 #include "AuraGameModeBase.generated.h"
 
@@ -26,7 +27,9 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category="Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
 	
-
+	UPROPERTY(EditDefaultsOnly, Category = "Loot Tiers")
+	TObjectPtr<ULootTiers> LootTiers;
+	
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex) const;
 	static void DeleteSlot(const FString& SlotName, int32 SlotIndex);

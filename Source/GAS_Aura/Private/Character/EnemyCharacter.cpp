@@ -50,9 +50,7 @@
  void AEnemyCharacter::HighlightActor_Implementation()
  {
  	GetMesh()->SetRenderCustomDepth(true);
- 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
  	Weapon->SetRenderCustomDepth(true);
- 	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
  }
 
  void AEnemyCharacter::UnHighlightActor_Implementation()
@@ -84,13 +82,8 @@
  void AEnemyCharacter::Die(const FVector& DeathImpulse)
  {
  	SetLifeSpan(LifeSpan);
- 	if (AuraAIController)
- 	{
- 		if (UBlackboardComponent* BBComp = AuraAIController->GetBlackboardComponent())
- 		{
- 			BBComp->SetValueAsBool(FName("Dead"), true);
- 		}
- 	}
+ 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
+ 	SpawnLoot();
  	Super::Die(DeathImpulse);
  }
 

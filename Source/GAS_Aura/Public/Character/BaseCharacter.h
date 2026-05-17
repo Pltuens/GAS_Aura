@@ -71,8 +71,10 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Burned();
 	
-protected:
+	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 	
+protected:
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead = false;
 	
 	virtual void BeginPlay() override;

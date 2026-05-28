@@ -79,7 +79,7 @@ void AAuraCharacter::LoadProgress()
 		{
 			if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
 			{
-				/*AuraASC->AddCharacterAbilitiesFromSaveData(SaveData);*/
+				AuraASC->AddCharacterAbilitiesFromSaveData(SaveData);
 			}
 			
 			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))

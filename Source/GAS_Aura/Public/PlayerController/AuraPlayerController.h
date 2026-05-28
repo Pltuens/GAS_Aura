@@ -44,8 +44,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
+	void ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit,
+	                                     bool bCriticalHit);
 
-	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
